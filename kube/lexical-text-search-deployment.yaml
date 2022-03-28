@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: lexical-text-search
+  name: lexical-text-search
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: lexical-text-search
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: lexical-text-search
+    spec:
+      containers:
+      - env:
+        - name: MONGO_HOST
+          value: __mongohost__
+        - name: MONGO_PORT
+          value: "__mongoport__"
+        - name: MONGO_DB
+          value: __servicedbmongodb__
+        - name: MONGO_USERNAME
+          value: __mongousername__
+        - name: MONGO_PASSWORD
+          value: __mongopassword__
+        image: __dockerregistryname__.azurecr.io/lexical_text_search:__tag__
+        imagePullPolicy: Always
+        name: lexical-text-search
+        ports:
+          - containerPort: 80
+        resources:
+          requests:
+            memory: "512Mi"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 60
+          periodSeconds: 60
+          timeoutSeconds: 20
+      imagePullSecrets:
+        - name: imagepullsecret-lexical-text-search
+      restartPolicy: Always
+status: {}

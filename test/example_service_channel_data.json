@@ -1,0 +1,350 @@
+[
+    {
+        "id": "fbeff57b-fdb7-4acc-9344-9d97193bf910",
+        "type": "ServiceLocation",
+        "areaType": "Nationwide",
+        "organizationId": "c5f6914f-302e-41cc-bed7-4d4215aac640",
+        "serviceIds": [
+            "e52f663f-df44-426c-b401-147d4ebd19cc",
+            "579991be-f40f-4913-8130-0e07592b50c4",
+            "30fe7757-32ad-4ea7-a8e4-857b44f81160",
+            "3ef3f1ef-6754-4308-8ef4-deef416b081e",
+            "aeb60b1d-2872-4841-9704-652246948990",
+            "76472df7-25ed-4c55-94dd-fa3dd98ee862",
+            "e0556386-0ffa-40f2-98aa-770b42dd792a",
+            "6529e1c2-b9ac-4f00-8e8b-6d13616ccf81",
+            "8c6e25e9-e186-49fd-852c-f6f168d1351f",
+            "dae7ba63-46af-4130-995d-1e88cafaa70c",
+            "b5c945e5-a4d6-47b9-9362-0fe0f20adc2e",
+            "ff059acf-de3f-468d-8b6a-9a492d301cda"
+        ],
+        "name": {
+            "en": null,
+            "fi": "Haukiputaan palvelupiste",
+            "sv": "Servicestället i Haukipudas"
+        },
+        "descriptions": {
+            "en": [],
+            "fi": [
+                {
+                    "value": "Kelan palvelupiste",
+                    "type": "Summary"
+                },
+                {
+                    "value": "Kelan palvelupisteessä opastetaan ja neuvotaan kaikissa Kelan etuuksiin liittyvissä asioissa. Voit hakea etuuksia ja toimittaa liitteet myös asiointipalvelussamme osoitteessa www.kela.fi/asiointi. Lue myös mahdollisuudesta ajanvaraukseen: www.kela.fi/ajanvaraus.",
+                    "type": "Description"
+                }
+            ],
+            "sv": [
+                {
+                    "value": "Fpa:s serviceställe",
+                    "type": "Summary"
+                },
+                {
+                    "value": "På FPA:s serviceställe kan du få information och rådgivning om alla FPA-förmåner. Du kan också ansöka om förmåner och lämna in bilagor i vår e-tjänst på adressen www.fpa.fi/etjanst. Läs mer om hur du bokar tid på adressen www.fpa.fi/tidsbokning.",
+                    "type": "Description"
+                }
+            ]
+        },
+        "webPages": {
+            "en": [],
+            "fi": [],
+            "sv": []
+        },
+        "emails": {
+            "en": [],
+            "fi": [],
+            "sv": []
+        },
+        "phoneNumbers": {
+            "en": [],
+            "fi": [],
+            "sv": []
+        },
+        "areas": {
+            "en": [
+                {
+                    "code": "853",
+                    "type": "Municipality",
+                    "name": "Turku"
+                },
+                {
+                    "code": "564",
+                    "type": "Municipality",
+                    "name": "Aura"
+                }],
+            "fi": [
+                {
+                    "code": "853",
+                    "type": "Municipality",
+                    "name": "Turku"
+                },
+                {
+                    "code": "564",
+                    "type": "Municipality",
+                    "name": "Aura"
+                }
+            ],
+            "sv": [
+                {
+                    "code": "853",
+                    "type": "Municipality",
+                    "name": "Åbo"
+                },
+                {
+                    "code": "564",
+                    "type": "Municipality",
+                    "name": "Aura"
+                }]
+        },
+        "addresses": {
+            "en": [
+                {
+                    "type": "Location",
+                    "subtype": "Single",
+                    "streetNumber": "15",
+                    "postalCode": "90830",
+                    "latitude": "7229135.399",
+                    "longitude": "422665.198",
+                    "streetName": "Simppulantie",
+                    "postOffice": "HAUKIPUDAS",
+                    "municipalityCode": "564",
+                    "municipalityName": "Aura"
+                },
+                {
+                    "type": "Postal",
+                    "subtype": "PostOfficeBox",
+                    "streetNumber": null,
+                    "postalCode": null,
+                    "latitude": null,
+                    "longitude": null,
+                    "streetName": null,
+                    "postOffice": null,
+                    "municipalityCode": null,
+                    "municipalityName": null
+                },
+                {
+                    "type": "Postal",
+                    "subtype": "PostOfficeBox",
+                    "streetNumber": null,
+                    "postalCode": null,
+                    "latitude": null,
+                    "longitude": null,
+                    "streetName": null,
+                    "postOffice": null,
+                    "municipalityCode": "853",
+                    "municipalityName": "Turku"
+                }
+            ],
+            "fi": [
+                {
+                    "type": "Location",
+                    "subtype": "Single",
+                    "streetNumber": "15",
+                    "postalCode": "90830",
+                    "latitude": "7229135.399",
+                    "longitude": "422665.198",
+                    "streetName": "Simppulantie",
+                    "postOffice": "HAUKIPUDAS",
+                    "municipalityCode": "564",
+                    "municipalityName": "Aura"
+                },
+                {
+                    "type": "Postal",
+                    "subtype": "PostOfficeBox",
+                    "streetNumber": null,
+                    "postalCode": null,
+                    "latitude": null,
+                    "longitude": null,
+                    "streetName": null,
+                    "postOffice": null,
+                    "municipalityCode": null,
+                    "municipalityName": null
+                },
+                {
+                    "type": "Postal",
+                    "subtype": "PostOfficeBox",
+                    "streetNumber": null,
+                    "postalCode": null,
+                    "latitude": null,
+                    "longitude": null,
+                    "streetName": null,
+                    "postOffice": null,
+                    "municipalityCode": "853",
+                    "municipalityName": "Turku"
+                }
+            ],
+            "sv": [
+                {
+                    "type": "Location",
+                    "subtype": "Single",
+                    "streetNumber": "15",
+                    "postalCode": "90830",
+                    "latitude": "7229135.399",
+                    "longitude": "422665.198",
+                    "streetName": "Simppulantie",
+                    "postOffice": "HAUKIPUDAS",
+                    "municipalityCode": "564",
+                    "municipalityName": "Aura"
+                },
+                {
+                    "type": "Postal",
+                    "subtype": "PostOfficeBox",
+                    "streetNumber": null,
+                    "postalCode": null,
+                    "latitude": null,
+                    "longitude": null,
+                    "streetName": null,
+                    "postOffice": null,
+                    "municipalityCode": null,
+                    "municipalityName": null
+                },
+                {
+                    "type": "Postal",
+                    "subtype": "PostOfficeBox",
+                    "streetNumber": null,
+                    "postalCode": null,
+                    "latitude": null,
+                    "longitude": null,
+                    "streetName": null,
+                    "postOffice": null,
+                    "municipalityCode": "853",
+                    "municipalityName": "Åbo"
+                }
+            ]
+        },
+        "lifeEvents": {
+            "en": [],
+            "fi": [],
+            "sv": []
+        },
+        "channelUrls": {
+            "en": [],
+            "fi": [],
+            "sv": []
+        },
+        "lastUpdated": "2021-06-16T07:19:48.498000"
+    },
+    {
+        "id": "16d63b97-0b8f-4f72-95e7-7cc2f9ab9e15",
+        "type": "EChannel",
+        "areaType": "Nationwide",
+        "organizationId": "c5f6914f-302e-41cc-bed7-4d4215aac640",
+        "serviceIds": [
+            "105837fa-97d2-4f9a-916e-09fe7ca19e52",
+            "b5b82555-9852-4a77-89bd-7dcd332d4f11",
+            "7d655de8-76fd-4f24-bb92-e8f49e153e88",
+            "b84af2c2-824f-4b27-a599-fa28de4e437c",
+            "f8dd3060-543c-47ba-abba-a14fc1feacb3",
+            "ff059acf-de3f-468d-8b6a-9a492d301cda",
+            "6529e1c2-b9ac-4f00-8e8b-6d13616ccf81",
+            "8c6e25e9-e186-49fd-852c-f6f168d1351f",
+            "3ef3f1ef-6754-4308-8ef4-deef416b081e",
+            "b5c945e5-a4d6-47b9-9362-0fe0f20adc2e",
+            "30fe7757-32ad-4ea7-a8e4-857b44f81160",
+            "dae7ba63-46af-4130-995d-1e88cafaa70c",
+            "e0556386-0ffa-40f2-98aa-770b42dd792a",
+            "579991be-f40f-4913-8130-0e07592b50c4",
+            "e52f663f-df44-426c-b401-147d4ebd19cc",
+            "aeb60b1d-2872-4841-9704-652246948990",
+            "76472df7-25ed-4c55-94dd-fa3dd98ee862",
+            "58a4bf82-dc19-4ca5-a57d-a0ef39d0e89d",
+            "506d84d5-0ecf-400a-8b74-f9bd990dab7b",
+            "3456be0a-a126-43af-a364-f24e24786cb1",
+            "5ecdee89-0459-4b27-8271-206f314b801b",
+            "b0372b6c-5ab5-4dd1-92e5-bde71dd25488",
+            "52693b89-c7da-4c61-80df-b6f871672064",
+            "ad234c6c-e24c-4d0f-8698-81980502278d",
+            "caba7a03-40b7-439e-871d-1d9081bd3299",
+            "a0a34972-1af4-41d2-ac89-198ce1875e4f",
+            "7fd28107-d7d6-4158-96d1-fad0bd8c7499",
+            "19a31135-a9d6-4926-a20b-bfe7db1780d3",
+            "05f6a1fd-925f-46f0-b0d2-8a92881710a6",
+            "9b6eb134-2764-47bd-9b98-e04f3a50b88b",
+            "b7e6eddc-0f49-4bfa-876c-53fa01ba7907",
+            "e09e783a-6363-412e-bed2-4082768c914d",
+            "0157fe90-43d2-40e4-895a-a9446829d1d8"
+        ],
+        "name": {
+            "en": "Kela's online customer service",
+            "fi": "Kelan Asiointipalvelu",
+            "sv": "FPA:s e-tjänst"
+        },
+        "descriptions": {
+            "en": [
+                {
+                    "value": "Check your own data, apply for benefits, send supporting documents and report changes.",
+                    "type": "Summary"
+                },
+                {
+                    "value": "In Kela's online customer service you can check your own data, apply for benefits, send supporting documets and report changes. You can handle almost all your transactions with Kela on the Internet. ",
+                    "type": "Description"
+                }
+            ],
+            "fi": [
+                {
+                    "value": "Tarkastele omia Kela-tietojasi, hae etuuksia, lähetä liitteitä ja ilmoita muutoksista. Voit hoitaa lähes kaikki Kela-asiasi verkossa.",
+                    "type": "Summary"
+                },
+                {
+                    "value": "Kelan verkkoasiointipalvelussa voit tarkastella omia Kela-tietojasi, hakea etuuksia, lähettää liitteitä ja ilmoittaa muutoksista. Voit hoitaa lähes kaikki Kela-asiasi verkossa.",
+                    "type": "Description"
+                }
+            ],
+            "sv": [
+                {
+                    "value": "Kontrollera dina uppgifter hos FPA, ansök om förmåner, skicka bilagor och meddela förändringar. Du kan sköta så gott som alla FPA-ärenden på nätet.",
+                    "type": "Summary"
+                },
+                {
+                    "value": "I FPA:s e-tjänst kan du kontrollera dina egna uppgifter hos FPA, ansöka om förmåner, skicka bilagor och meddela förändringar. Du kan sköta så gott som alla FPA-ärenden på nätet. ",
+                    "type": "Description"
+                }
+            ]
+        },
+        "webPages": {
+            "en": [
+                "https://asiointi.kela.fi/go_app?lg=en"
+            ],
+            "fi": [
+                "https://asiointi.kela.fi/go_app"
+            ],
+            "sv": [
+                "https://asiointi.kela.fi/go_app?lg=sv"
+            ]
+        },
+        "emails": {
+            "en": [],
+            "fi": [
+                "tekninentuki@kela.fi"
+            ],
+            "sv": []
+        },
+        "phoneNumbers": {
+            "en": [],
+            "fi": [],
+            "sv": []
+        },
+        "areas": {
+            "en": [],
+            "fi": [],
+            "sv": []
+        },
+        "addresses": {
+            "en": [],
+            "fi": [],
+            "sv": []
+        },
+        "lifeEvents": {
+            "en": [],
+            "fi": [],
+            "sv": []
+        },
+        "channelUrls": {
+            "en": [],
+            "fi": [],
+            "sv": []
+        },
+        "lastUpdated": "2021-06-16T07:19:48.498000"
+    }
+]

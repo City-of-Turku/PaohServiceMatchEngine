@@ -1,0 +1,49 @@
+version: '3.4'
+services:
+  service-match-engine:
+    build: ./service_matcher_app
+    image: service-match-engine-image
+    container_name: service-match-engine-container
+    restart: always
+    ports:
+      - '80:80'
+    environment:
+      MONGO_DB: 'service_db'
+      MONGO_PORT: '${MONGO_PORT}'
+      MONGO_HOST: '${MONGO_HOST}'
+      MONGO_USERNAME: '${MONGO_USERNAME}'
+      MONGO_PASSWORD: '${MONGO_PASSWORD}'
+      NLP_VECTORIZER_HOST: 'http://host.docker.internal:3100'
+      LEXICAL_TEXT_SEARCH_HOST: 'http://host.docker.internal:3200'
+      FAST_API_ROOT_PATH: '/'
+    # extra_hosts:
+    #   - "dockerhost:${MONGO_HOST}"
+  nlp-vectorizer:
+    build: ./nlp_vectorizer_app
+    image: nlp-vectorizer-image
+    container_name: nlp-vectorizer-container
+    restart: always
+    ports:
+      - '3100:80'
+    volumes:
+      - ./nlp_models:/nlp_models
+    environment:
+      NLP_MODELS_MOUNT_PATH: '/nlp_models'
+      NLP_MODEL_NAME: 'paraphrase-multilingual-mpnet-base-v2'
+  lexical-text-search:
+    build: ./lexical_text_search_app
+    image: lexical-text-search-image
+    container_name: lexical-text-search-container
+    restart: always
+    ports:
+      - '3200:80'
+    environment:
+      MONGO_DB: 'service_db'
+      MONGO_PORT: '${MONGO_PORT}'
+      MONGO_HOST: '${MONGO_HOST}'
+      MONGO_USERNAME: '${MONGO_USERNAME}'
+      MONGO_PASSWORD: '${MONGO_PASSWORD}'
+
+
+        
+

@@ -1,0 +1,349 @@
+[
+    {
+        "id": "534d17ab-1690-48bb-bb52-71f4832d7a91",
+        "type": "Service",
+        "subtype": null,
+        "organizations": [
+            {
+                "id": "925a28e3-54fe-4b3a-be8c-2aeb01c0fb9e",
+                "name": "Poliisi"
+            },
+            {
+                "id": "925a28e3-54fe-4b3a-be8c-2aeb01c0fb9e",
+                "name": "Poliisi"
+            }
+        ],
+        "name": {
+            "en": null,
+            "fi": "Ampumarata",
+            "sv": "Skjutbana"
+        },
+        "descriptions": {
+            "en": [],
+            "fi": [
+                {
+                    "value": "Vähäisen ampumaradan perustajan tai pitäjän on jätettävä ilmoitus ampumaradasta (ampumaratailmoitus) Poliisihallitukselle vähintään kahta kuukautta ennen radan käyttöönottoa.\n\nAmpumaratailmoituksen on sisällettävä 9 §:ssä tarkoitettu ampumaradan järjestyssääntö sekä ratavastaavan tiedot ja suostumus tehtävään.\n\nValtioneuvoston asetuksella annetaan tarkempia ohjeita ampumarataa koskevasta hakemuksesta ja ilmoituksesta.",
+                    "type": "UserInstruction"
+                },
+                {
+                    "value": "Ampumaradalla tarkoitetaan sisällä olevaa tilaa tai ulkona olevaa aluetta, joka on ampuma-aseella maaliin ampumista varten.\n\nVähäisellä ampumaradalla tarkoitetaan ampumarataa, jolla on tarkoitettu ammuttavaksi enintään 10 000 laukausta vuodessa.\n\nLuvan ampumaradan perustamiseen ja ylläpitämiseen antaa ja peruuttaa Poliisihallitus. Myös ampumaratailmoitus tehdään Poliisihallitukselle.",
+                    "type": "Description"
+                },
+                {
+                    "value": "Ampumaradan perustaminen ja ylläpitäminen on luvanvaraista. Vähäisestä ampumaradasta on tehtävä ampumaratailmoitus.",
+                    "type": "Summary"
+                },
+                {
+                    "value": "Ampumaradan perustaminen ja ylläpitäminen on luvanvaraista. Vähäisestä ampumaradasta on tehtävä ampumaratailmoitus.",
+                    "type": "GD_Summary"
+                },
+                {
+                    "value": "Ampumaradalla tarkoitetaan sisällä olevaa tilaa tai ulkona olevaa aluetta, joka on ampuma-aseella maaliin ampumista varten.\n\nVähäisellä ampumaradalla tarkoitetaan ampumarataa, jolla on tarkoitettu ammuttavaksi enintään 10 000 laukausta vuodessa.\n\nLuvan ampumaradan perustamiseen ja ylläpitämiseen antaa ja peruuttaa Poliisihallitus. Myös ampumaratailmoitus tehdään Poliisihallitukselle.",
+                    "type": "GD_Description"
+                }
+            ],
+            "sv": [
+                {
+                    "value": "Med skjutbana avses ett utrymme inomhus eller ett område utomhus som används för målskjutning med skjutvapen.\n\nMed småskalig skjutbana avses en skjutbana avsedd för högst 10 000 skott per år.\n\nTillstånd för att anlägga och driva en skjutbana ges och återkallas av Polisstyrelsen. Även skjutbaneanmälan görs till Polisstyrelsen.\n",
+                    "type": "Description"
+                },
+                {
+                    "value": "Anläggning och drift av skjutbana kräver tillstånd. Den som anlägger eller driver en småskalig skjutbana ska göra en skjutbaneanmälan.",
+                    "type": "Summary"
+                },
+                {
+                    "value": "Den som anlägger eller driver en småskalig skjutbana ska lämna in en anmälan om skjutbanan (skjutbaneanmälan) till Polisstyrelsen minst två månader innan banan tas i bruk.\n\nSkjutbaneanmälan ska innehålla en ordningsstadga enligt 9 § för skjutbanan samt uppgifter om den banansvarige och den banansvariges samtycke till uppdraget.\n\nGenom förordning av statsrådet får närmare bestämmelser utfärdas om ansökan och anmälan om skjutbana.",
+                    "type": "UserInstruction"
+                }
+            ]
+        },
+        "requirement": {
+            "en": "",
+            "fi": "",
+            "sv": ""
+        },
+        "targetGroups": {
+            "en": [
+                {
+                    "name": "Citizens",
+                    "code": "KR1"
+                }
+            ],
+            "fi": [
+                {
+                    "name": "Kansalaiset",
+                    "code": "KR1"
+                }
+            ],
+            "sv": [
+                {
+                    "name": "Medborgare",
+                    "code": "KR1"
+                }
+            ]
+        },
+        "serviceClasses": {
+            "en": [
+                {
+                    "name": "Maintaining public order and licences and permits granted by the police",
+                    "description": "This service subclass contains services related to the maintenance and monitoring of public order by the authorities and parties authorised by them. It also includes licence and permit issues for which the police are responsible.",
+                    "code": "P20.1"
+                }
+            ],
+            "fi": [
+                {
+                    "name": "Järjestyksen valvonta ja poliisin myöntämät luvat",
+                    "description": "Tähän palvelualaluokkaan kuuluvat palvelut, jotka liittyvät viranomaisten ja heidän valtuuttamiensa tahojen suorittamaan järjestyksen ylläpitoon ja valvontaan. Tässä luokassa ovat myös poliisin vastuulla olevat lupa-asiat.",
+                    "code": "P20.1"
+                }
+            ],
+            "sv": [
+                {
+                    "name": "Övervakning av ordning och tillstånd som beviljas av polisen",
+                    "description": "Denna serviceundergrupp omfattar tjänster relaterade till upprätthållande och övervakning av ordning som utförs av myndigheter och parter som de befullmäktigat. Denna grupp omfattar också tillståndsärenden som polisen ansvarar för.",
+                    "code": "P20.1"
+                }
+            ]
+        },
+        "areas": {
+            "en": [
+                {
+                    "code": "853",
+                    "type": "Municipality",
+                    "name": "Turku"
+                },
+                {
+                    "code": "564",
+                    "type": "Municipality",
+                    "name": "Aura"
+                }],
+            "fi": [
+                {
+                    "code": "853",
+                    "type": "Municipality",
+                    "name": "Turku"
+                },
+                {
+                    "code": "564",
+                    "type": "Municipality",
+                    "name": "Aura"
+                }
+            ],
+            "sv": [                {
+                    "code": "853",
+                    "type": "Municipality",
+                    "name": "Åbo"
+                },
+                {
+                    "code": "564",
+                    "type": "Municipality",
+                    "name": "Aura"
+                }]
+        },
+        "lifeEvents": {
+            "en": [],
+            "fi": [
+                {
+                    "code": "KE6",
+                    "name": "Esimerkkielämäntilanne"
+                }
+            ],
+            "sv": []
+        },
+        "lastUpdated": "2021-06-11T11:08:13+00:00"
+    },
+    {
+        "id": "6dd973ff-65b5-4630-9087-2892e7835685",
+        "type": "PermitOrObligation",
+        "subtype": null,
+        "organizations": [
+            {
+                "id": "925a28e3-54fe-4b3a-be8c-2aeb01c0fb9e",
+                "name": "Poliisi"
+            },
+            {
+                "id": "925a28e3-54fe-4b3a-be8c-2aeb01c0fb9e",
+                "name": "Poliisi"
+            }
+        ],
+        "name": {
+            "en": null,
+            "fi": "Turvasuojaajaksi hyväksyminen.",
+            "sv": "Kort för utförare av säkerhetsskyddsuppgifter. Utförare av säkerhetsskyddsuppgifter"
+        },
+        "descriptions": {
+            "en": [],
+            "fi": [
+                {
+                    "value": "Turvasuojaajaksi hyväksyminen on voimassa viisi vuotta.",
+                    "type": "ValidityTime"
+                },
+                {
+                    "value": "Voimassaoleva turvasuojaajakortti vaaditaan henkilöltä, joka ansiotarkoituksessa suorittaa turvasuojaustehtäviä.",
+                    "type": "Summary"
+                },
+                {
+                    "value": "Hakija voi tehdä hakemuksen poliisin sähköisessä asiointipalvelussa. Hakijan tulee kuitenkin saapua henkilökohtaisesti poliisilaitokselle, jos se on erityisestä syystä tarpeen. Hakemuksen voi tehdä myös henkilökohtaisesti poliisiasemalla tai poliisin palvelupisteessä. Hakemukseen on liitettävä:\n\n- selvitys turvasuojaustehtävien hoitamisesta\n\n- selvitys siitä, toimiiko hakija työsuhteessa olevana työntekijänä vai itsenäisenä ammatinharjoittajana\n\n- selvitys hakijan työnantajasta, jos hakija toimii työsuhteessa olevana työntekijänä\n\n- työnantajan nimi ja y-tunnus\n\n- passilain 6 §:n 5 momentin nojalla annetuissa säännöksissä säädetyt vaatimukset täyttävä valokuva hakijasta\n\n\nLisätietoja turvasuojaajaksi hyväksymisestä, turvasuojaajaksi hyväksymisen muuttamisesta tai turvasuojaajakortin kaksoiskappaleen hankkimisesta poliisin verkkosivuilta.\n\n",
+                    "type": "UserInstruction"
+                },
+                {
+                    "value": "Maksu perustuu sisäministeriön asetukseen poliisin suoritteiden maksullisuudesta. Asetus uusitaan määräajoin.",
+                    "type": "ChargeTypeAdditionalInfo"
+                },
+                {
+                    "value": "Turvasuojaajalla tarkoitetaan turvallisuusalan elinkeinoluvan haltijan tai turvasuojaustoiminnan harjoittajan palveluksessa olevaa henkilöä, joka suorittaa hyväksymistä edellyttäviä turvasuojaustehtäviä. Tällaisia tehtäviä ovat rakenteellisen suojauksen tai sähköisten valvontajärjestelmien suunnitteleminen, asentaminen, korjaaminen tai muuttaminen sekä muiden turvallisuusjärjestelyjen suunnitteleminen. Turvasuojaustoiminta on ansiotarkoituksessa suoritettavaa, toimeksiantosopimukseen perustuvaa turvasuojaustehtävien hoitamista. Turvasuojaajaksi hyväksymisen myöntää poliisilaitos.",
+                    "type": "Description"
+                }
+            ],
+            "sv": [
+                {
+                    "value": "Ett godkännande som utförare av säkerhetsskyddsuppgifter gäller i fem år.",
+                    "type": "ValidityTime"
+                },
+                {
+                    "value": "Avgiften bestäms enligt inrikesministeriets förordning om polisens avgiftsbelagda prestationer. Förordningen revideras regelbundet.",
+                    "type": "ChargeTypeAdditionalInfo"
+                },
+                {
+                    "value": "Med utförare av säkerhetsskyddsuppgifter avses en person som är anställd hos en innehavare av näringstillstånd för säkerhetsbranschen eller en utövare av säkerhetsskyddande verksamhet som utför säkerhetsskyddsuppgifter som kräver godkännande. Med säkerhetsskyddsuppgift avses planering, installation, reparation eller ändring av konstruktionsmässigt skydd eller elektroniska övervakningssystem samt planering av andra säkerhetsarrangemang. Säkerhetsskyddande verksamhet är utförande av säkerhetsskyddsuppgifter i förvärvssyfte enligt uppdragsavtal. En sökande godkänns som utförare av säkerhetsskyddsuppgifter av polisinrättningen.",
+                    "type": "Description"
+                },
+                {
+                    "value": "Den sökande kan lämna sin ansökan via polisens elektroniska tjänst. Den sökande ska emellertid personligen infinna sig på polisinrättningen om det är nödvändigt av någon särskild orsak. Ansökan kan också lämnas in personligen på polisstationen eller vid polisens serviceställe. Till ansökan ska fogas följande:\n\n- utredning av utförande av säkerhetsskyddsuppgifter,\n\n- utredning av om den sökande är en anställd arbetstagare eller en självständig yrkesutövare,\n\n- utredning av den sökandes arbetsgivare, om den sökande är en anställd arbetstagare,\n\n- arbetsgivarens namn och FO-nummer,\n\n- ett foto på den sökande som uppfyller kraven i bestämmelserna enligt 6 § 5 mom. i passlagen.\n\n\nMer information om godkännande som utförare av säkerhetsskyddsuppgifter, ändring av godkännande som utförare av säkerhetsskyddsuppgifter eller ansökan om duplettexemplar av kort för utförare av säkerhetskyddsuppgifter finns på polisens webbplats.\n\n",
+                    "type": "UserInstruction"
+                },
+                {
+                    "value": "Den som i förvärvssyfte utför säkerhetsskyddsuppgifter ska ha ett giltigt kort för utförare av säkerhetsskyddsuppgifter.",
+                    "type": "Summary"
+                }
+            ]
+        },
+        "requirement": {
+            "en": "",
+            "fi": "Turvasuojaajaksi voidaan hyväksyä 18 vuotta täyttänyt, rehellinen ja luotettava sekä henkilökohtaisilta ominaisuuksiltaan tehtävään sopiva henkilö, joka lisäksi hoitaa turvasuojaustehtäviä. Hyväksymisen edellytyksenä on lisäksi ansiotarkoituksessa tehtävä turvasuojaustehtävien hoitaminen.",
+            "sv": "Som utförare av säkerhetsskyddsuppgifter kan godkännas en person som har fyllt 18 år, som är känd för redbarhet och pålitlighet och som till sina personliga egenskaper är lämplig som utförare av säkerhetsskyddsuppgifter och som dessutom sköter säkerhetsskyddsuppgifter. Godkännande förutsätter dessutom att säkerhetsskyddsuppgifterna utförs i förvärvssyfte."
+        },
+        "targetGroups": {
+            "en": [
+                {
+                    "name": "Businesses and non-government organizations",
+                    "code": "KR2"
+                },
+                {
+                    "name": "Businesses operating in the domestic (Finnish) market",
+                    "code": "KR2.3"
+                },
+                {
+                    "name": "Non-government organizations",
+                    "code": "KR2.7"
+                },
+                {
+                    "name": "Large companies",
+                    "code": "KR2.5"
+                },
+                {
+                    "name": "Citizens",
+                    "code": "KR1"
+                }
+            ],
+            "fi": [
+                {
+                    "name": "Yritykset ja yhteisöt",
+                    "code": "KR2"
+                },
+                {
+                    "name": "Kotimarkkinoilla toimivat yritykset",
+                    "code": "KR2.3"
+                },
+                {
+                    "name": "Yhdistykset ja järjestöt",
+                    "code": "KR2.7"
+                },
+                {
+                    "name": "Suuryritykset",
+                    "code": "KR2.5"
+                },
+                {
+                    "name": "Kansalaiset",
+                    "code": "KR1"
+                }
+            ],
+            "sv": [
+                {
+                    "name": "Företag och samfund",
+                    "code": "KR2"
+                },
+                {
+                    "name": "Företag på den inhemska marknaden",
+                    "code": "KR2.3"
+                },
+                {
+                    "name": "Föreningar och organisationer",
+                    "code": "KR2.7"
+                },
+                {
+                    "name": "Storföretag",
+                    "code": "KR2.5"
+                },
+                {
+                    "name": "Medborgare",
+                    "code": "KR1"
+                }
+            ]
+        },
+        "serviceClasses": {
+            "en": [
+                {
+                    "name": "Sector-specific permits and obligations",
+                    "description": "This service subclass contains obligations associated with enterprising, which may be related to obtaining permits, submitting notifications or completing registrations.",
+                    "code": "P11.2"
+                },
+                {
+                    "name": "Safety and security",
+                    "description": "This service class contains services related to accidents, crime and safety in a time of crisis from the perspective of both citizens and society. The class includes preventive activities, rescue services and activities related to national security.",
+                    "code": "P19"
+                }
+            ],
+            "fi": [
+                {
+                    "name": "Toimialakohtaiset luvat ja velvoitteet",
+                    "description": "Tähän alapalveluluokkaan kuuluvat yritystoimintaa velvoittavat asiat, jotka voivat liittyä lupien hankintaan, ilmoituksien tekemiseen tai rekisteröinteihin.",
+                    "code": "P11.2"
+                },
+                {
+                    "name": "Turvallisuus",
+                    "description": "Tässä palveluluokassa käsitellään onnettomuuksiin, rikoksiin ja kriisiajan turvallisuuteen liittyviä palveluja niin kansalaisen kuin yhteiskunnan kannalta. Luokka kattaa ennalta ehkäisevän toiminnan, pelastuspalvelut ja koko maan turvallisuuteen liittyvän toiminnan.",
+                    "code": "P19"
+                }
+            ],
+            "sv": [
+                {
+                    "name": "Branschspecifika tillstånd och skyldigheter",
+                    "description": "Denna underservicegrupp omfattar obligatoriska ärenden relaterade till företagsverksamhet, såsom tillstånd, anmälningar och registrering.",
+                    "code": "P11.2"
+                },
+                {
+                    "name": "Säkerhet",
+                    "description": "I denna servicegrupp behandlas tjänster relaterade till olyckor, brott och säkerhet i kristider med tanke på både medborgarna och samhället. Gruppen omfattar all förebyggande verksamhet, räddningstjänster och verksamhet som fokuserar på hela landets säkerhet.",
+                    "code": "P19"
+                }
+            ]
+        },
+        "areas": {
+            "en": [],
+            "fi": [],
+            "sv": []
+        },
+        "lifeEvents": {
+            "en": [],
+            "fi": [
+                {
+                    "code": "KE7",
+                    "name": "Toinen elämäntilanne"
+                }
+            ],
+            "sv": []
+        },
+        "lastUpdated": "2021-06-11T11:08:13+00:00"
+    }
+]

@@ -1,0 +1,746 @@
+name: A pipeline for testing, building and deploying service match engine
+
+resources:
+- repo: self
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+trigger:
+  branches:
+    include:
+    - main
+    - dev
+    - feat-*
+    - feat/*
+  paths:
+    exclude:
+    - mongo/*
+    - README.md
+    - docker-compose.yml
+    - notebooks/*
+    - nginx/*
+    - recommendation_testing/*
+
+variables:
+  tag: '$(Build.BuildId)'
+  isProd: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+  isTest: $[eq(variables['Build.SourceBranch'], 'refs/heads/dev')]
+  
+  azureContainerRegistryTest: tkupaohtestcontainerregistry.azurecr.io
+  azureContainerRegistryProd: tkupaohtuotcontainerregistry.azurecr.io
+  azureSubscriptionEndpointTest: tku-palveluohjain-testi-sc
+  azureSubscriptionEndpointProd: tku-palveluohjain-tuotanto-sc
+  kubernetesServiceConnectionTest: tku-palveluohjain-testi-aks-sc
+  kubernetesServiceConnectionProd: tku-palveluohjain-tuotanto-aks-sc
+  dockerRegistryEndpointTest: tku-palveluohjain-testi-docker-sc
+  dockerRegistryEndpointProd: tku-palveluohjain-tuotanto-docker-sc
+  azurestorageaccountnameTest: tkupaohteststorage
+  azurestorageaccountnameProd: tkupaohtuotstorage
+
+  azurefilesharenlpmodels: fileshare-nlp-models
+  nlpmodelname: paraphrase-multilingual-mpnet-base-v2
+  fastapirootpath: /servicematcher
+  serviceMatchEngineImage: <COMES FROM KUBE>
+
+stages:
+- stage: Test
+  displayName: Run tests
+  jobs:
+  - job: UnitTests
+    steps:
+    - task: UsePythonVersion@0
+      displayName: 'Use Python 3.8'
+      inputs:
+        versionSpec: '3.8'
+
+    - script: python3 -m pip install --upgrade pip setuptools wheel
+      displayName: 'Install tools'
+
+    - script: pip install -r service_matcher_app/requirements.txt
+      displayName: 'Installing Service Matcher requirements'
+
+    - script: pip install -r nlp_vectorizer_app/requirements.txt
+      displayName: 'Installing NLP vectorizer requirements'
+
+    - script: pip install -r service_data_processor_app/requirements.txt
+      displayName: 'Installing Service Data Processor requirements'
+
+    - script: pip install -r lexical_text_search_app/requirements.txt
+      displayName: 'Installing Lexical Text Search requirements'
+
+    - script: python3 -m unittest discover -s test --verbose
+      displayName: 'Run tests'
+
+
+- stage: BuildTestServiceMatchEngine
+  displayName: Build Service Match Engine image for test environment
+  condition: and(eq(variables.isTest, true), succeeded())
+  variables:
+    - group: tku-paoh-test-variable-group
+  dependsOn: Test
+  jobs:
+  - job: Build
+    displayName: Build
+    steps:
+
+    - task: Docker@2
+      displayName: Login to ACR
+      inputs:
+        command: login
+        containerRegistry: $(dockerRegistryEndpointTest)
+
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: build
+        repository: servicematchengine
+        containerRegistry: $(dockerRegistryEndpointTest)
+        dockerfile: '$(Build.SourcesDirectory)/service_matcher_app/Dockerfile'
+        tags: |
+          $(tag)
+
+    - task: Docker@2
+      displayName: Push image to the container registry
+      inputs:
+        command: push
+        repository: servicematchengine
+        containerRegistry: $(dockerRegistryEndpointTest)
+        tags: |
+          $(tag)
+
+- stage: BuildTestNlpVectorizer
+  displayName: Build NLP vectorizer image for test environment
+  condition: and(eq(variables.isTest, true), succeeded())
+  variables:
+    - group: tku-paoh-test-variable-group
+  dependsOn: Test
+  jobs:
+  - job: Build
+    displayName: Build
+    steps:
+
+    - task: Docker@2
+      displayName: Login to ACR
+      inputs:
+        command: login
+        containerRegistry: $(dockerRegistryEndpointTest)
+
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: build
+        repository: nlp_vectorizer
+        containerRegistry: $(dockerRegistryEndpointTest)
+        dockerfile: '$(Build.SourcesDirectory)/nlp_vectorizer_app/Dockerfile'
+        tags: |
+          $(tag)
+
+    - task: Docker@2
+      displayName: Push image to the container registry
+      inputs:
+        command: push
+        repository: nlp_vectorizer
+        containerRegistry: $(dockerRegistryEndpointTest)
+        tags: |
+          $(tag)
+
+- stage: BuildTestLexicalTextSearch
+  displayName: Build lexical text search image for test environment
+  condition: and(eq(variables.isTest, true), succeeded())
+  variables:
+    - group: tku-paoh-test-variable-group
+  dependsOn: Test
+  jobs:
+  - job: Build
+    displayName: Build
+    steps:
+
+    - task: Docker@2
+      displayName: Login to ACR
+      inputs:
+        command: login
+        containerRegistry: $(dockerRegistryEndpointTest)
+
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: build
+        repository: lexical_text_search
+        containerRegistry: $(dockerRegistryEndpointTest)
+        dockerfile: '$(Build.SourcesDirectory)/lexical_text_search_app/Dockerfile'
+        tags: |
+          $(tag)
+
+    - task: Docker@2
+      displayName: Push image to the container registry
+      inputs:
+        command: push
+        repository: lexical_text_search
+        containerRegistry: $(dockerRegistryEndpointTest)
+        tags: |
+          $(tag)
+
+
+- stage: BuildTestServiceDataProcessor
+  displayName: Build Service Data Processor image for test environment
+  condition: and(eq(variables.isTest, true), succeeded())
+  variables:
+    - group: tku-paoh-test-variable-group
+  dependsOn: Test
+  jobs:
+  - job: Build
+    displayName: Build
+    steps:
+
+    - task: Docker@2
+      displayName: Login to ACR
+      inputs:
+        command: login
+        containerRegistry: $(dockerRegistryEndpointTest)
+
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: build
+        repository: servicedataprocessorfunction
+        containerRegistry: $(dockerRegistryEndpointTest)
+        buildContext: '$(Build.SourcesDirectory)/service_data_processor_app'
+        dockerfile: '$(Build.SourcesDirectory)/service_data_processor_app/Dockerfile'
+        tags: |
+          $(tag)
+
+    - task: Docker@2
+      displayName: Push image to the container registry
+      inputs:
+        command: push
+        repository: servicedataprocessorfunction
+        containerRegistry: $(dockerRegistryEndpointTest)
+        tags: |
+          $(tag)
+
+- stage: BuildProdServiceMatchEngine
+  displayName: Build Service Match Engine image for prod environment
+  condition: and(eq(variables.isProd, true), succeeded())
+  variables:
+    - group: tku-paoh-tuot-variable-group
+  dependsOn: Test
+  jobs:
+  - job: Build
+    displayName: Build
+    steps:
+
+    - task: Docker@2
+      displayName: Login to ACR
+      inputs:
+        command: login
+        containerRegistry: $(dockerRegistryEndpointProd)
+
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: build
+        repository: servicematchengine
+        containerRegistry: $(dockerRegistryEndpointProd)
+        dockerfile: '$(Build.SourcesDirectory)/service_matcher_app/Dockerfile'
+        tags: |
+          $(tag)
+
+    - task: Docker@2
+      displayName: Push image to the container registry
+      inputs:
+        command: push
+        repository: servicematchengine
+        containerRegistry: $(dockerRegistryEndpointProd)
+        tags: |
+          $(tag)
+
+- stage: BuildProdNlpVectorizer
+  displayName: Build NLP vectorizer image for prod environment
+  condition: and(eq(variables.isProd, true), succeeded())
+  variables:
+    - group: tku-paoh-tuot-variable-group
+  dependsOn: Test
+  jobs:
+  - job: Build
+    displayName: Build
+    steps:
+
+    - task: Docker@2
+      displayName: Login to ACR
+      inputs:
+        command: login
+        containerRegistry: $(dockerRegistryEndpointProd)
+
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: build
+        repository: nlp_vectorizer
+        containerRegistry: $(dockerRegistryEndpointProd)
+        dockerfile: '$(Build.SourcesDirectory)/nlp_vectorizer_app/Dockerfile'
+        tags: |
+          $(tag)
+
+    - task: Docker@2
+      displayName: Push image to the container registry
+      inputs:
+        command: push
+        repository: nlp_vectorizer
+        containerRegistry: $(dockerRegistryEndpointProd)
+        tags: |
+          $(tag)
+
+- stage: BuildProdLexicalTextSearch
+  displayName: Build lexical text search image for prod environment
+  condition: and(eq(variables.isProd, true), succeeded())
+  variables:
+    - group: tku-paoh-tuot-variable-group
+  dependsOn: Test
+  jobs:
+  - job: Build
+    displayName: Build
+    steps:
+
+    - task: Docker@2
+      displayName: Login to ACR
+      inputs:
+        command: login
+        containerRegistry: $(dockerRegistryEndpointProd)
+
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: build
+        repository: lexical_text_search
+        containerRegistry: $(dockerRegistryEndpointProd)
+        dockerfile: '$(Build.SourcesDirectory)/lexical_text_search_app/Dockerfile'
+        tags: |
+          $(tag)
+
+    - task: Docker@2
+      displayName: Push image to the container registry
+      inputs:
+        command: push
+        repository: lexical_text_search
+        containerRegistry: $(dockerRegistryEndpointProd)
+        tags: |
+          $(tag)
+
+
+- stage: BuildProdServiceDataProcessor
+  displayName: Build Service Data Processor image for prod environment
+  condition: and(eq(variables.isProd, true), succeeded())
+  variables:
+    - group: tku-paoh-tuot-variable-group
+  dependsOn: Test
+  jobs:
+  - job: Build
+    displayName: Build
+    steps:
+
+    - task: Docker@2
+      displayName: Login to ACR
+      inputs:
+        command: login
+        containerRegistry: $(dockerRegistryEndpointProd)
+
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: build
+        repository: servicedataprocessorfunction
+        containerRegistry: $(dockerRegistryEndpointProd)
+        buildContext: '$(Build.SourcesDirectory)/service_data_processor_app'
+        dockerfile: '$(Build.SourcesDirectory)/service_data_processor_app/Dockerfile'
+        tags: |
+          $(tag)
+
+    - task: Docker@2
+      displayName: Push image to the container registry
+      inputs:
+        command: push
+        repository: servicedataprocessorfunction
+        containerRegistry: $(dockerRegistryEndpointProd)
+        tags: |
+          $(tag)
+
+
+- stage: DeployTestNlpVectorizer
+  condition: and(eq(variables.isTest, true), succeeded())
+  dependsOn: BuildTestNlpVectorizer
+  displayName: Deploy NLP Vectorizer to test environment to Azure
+  variables:
+    - group: tku-paoh-test-variable-group
+  jobs:
+  - job: Deploy
+    displayName: Deploy
+    steps:
+
+    - task: KubernetesManifest@0
+      displayName: Create Azure Fileshare secret
+      inputs:
+        action: createSecret
+        secretType: generic
+        namespace: default
+        kubernetesServiceConnection: $(kubernetesServiceConnectionTest)
+        secretName: azurefilesharesecretnlpmodels
+        secretArguments:
+          --from-literal=azurestorageaccountname=$(azurestorageaccountnameTest)
+          --from-literal=azurestorageaccountkey=$(azurestorageaccountkey)
+
+    - task: KubernetesManifest@0
+      displayName: Create ImagePullSecret
+      inputs:
+        action: createSecret
+        namespace: default
+        kubernetesServiceConnection: $(kubernetesServiceConnectionTest)
+        secretName: imagepullsecret-nlp-vectorizer
+        dockerRegistryEndpoint: $(dockerRegistryEndpointTest)
+
+    - task: replacetokens@3
+      displayName: 'Replace tokens in .yaml files'
+      inputs:
+        targetFiles: |
+          $(Build.SourcesDirectory)/kube/*.yaml
+        verbosity: detailed
+        tokenPrefix: '__'
+        tokenSuffix: '__'
+        
+    - task: KubernetesManifest@0
+      displayName: Deploy to Kubernetes test environment cluster
+      inputs:
+        action: deploy
+        namespace: default
+        kubernetesServiceConnection: $(kubernetesServiceConnectionTest)
+        manifests: |
+          $(Build.SourcesDirectory)/kube/nlp*.yaml
+        imagePullSecrets: |
+          imagepullsecret-nlp-vectorizer
+        containers: |
+          $(azureContainerRegistryTest)/nlp_vectorizer:$(tag)
+
+- stage: DeployTestLexicalTextSearch
+  condition: and(eq(variables.isTest, true), succeeded())
+  dependsOn: BuildTestLexicalTextSearch
+  displayName: Deploy lexical text search to test environment to Azure
+  variables:
+    - group: tku-paoh-test-variable-group
+  jobs:
+  - job: Deploy
+    displayName: Deploy
+    steps:
+
+    - task: KubernetesManifest@0
+      displayName: Create ImagePullSecret
+      inputs:
+        action: createSecret
+        namespace: default
+        kubernetesServiceConnection: $(kubernetesServiceConnectionTest)
+        secretName: imagepullsecret-lexical-text-search
+        dockerRegistryEndpoint: $(dockerRegistryEndpointTest)
+
+    - task: replacetokens@3
+      displayName: 'Replace tokens in .yaml files'
+      inputs:
+        targetFiles: |
+          $(Build.SourcesDirectory)/kube/*.yaml
+        verbosity: detailed
+        tokenPrefix: '__'
+        tokenSuffix: '__'
+        
+    - task: KubernetesManifest@0
+      displayName: Deploy to Kubernetes test environment cluster
+      inputs:
+        action: deploy
+        namespace: default
+        kubernetesServiceConnection: $(kubernetesServiceConnectionTest)
+        manifests: |
+          $(Build.SourcesDirectory)/kube/lexical*.yaml
+        imagePullSecrets: |
+          imagepullsecret-lexical-text-search
+        containers: |
+          $(azureContainerRegistryTest)/lexical_text_search:$(tag)
+
+- stage: DeployTestServiceMatchEngine
+  condition: and(eq(variables.isTest, true), succeeded())
+  dependsOn:
+  - BuildTestServiceMatchEngine
+  - DeployTestNlpVectorizer
+  displayName: Deploy Service Match Engine to test environment to Azure
+  variables:
+    - group: tku-paoh-test-variable-group
+  jobs:
+  - job: Deploy
+    displayName: Deploy
+    steps:
+
+    - task: KubernetesManifest@0
+      displayName: Create ImagePullSecret
+      inputs:
+        action: createSecret
+        namespace: default
+        kubernetesServiceConnection: $(kubernetesServiceConnectionTest)
+        secretName: imagepullsecret-service-match-engine
+        dockerRegistryEndpoint: $(dockerRegistryEndpointTest)
+
+    - task: replacetokens@3
+      displayName: 'Replace tokens in .yaml files'
+      inputs:
+        targetFiles: |
+          $(Build.SourcesDirectory)/kube/*.yaml
+        verbosity: detailed
+        tokenPrefix: '__'
+        tokenSuffix: '__'
+        
+    - task: KubernetesManifest@0
+      displayName: Deploy to Kubernetes test environment cluster
+      inputs:
+        action: deploy
+        namespace: default
+        kubernetesServiceConnection: $(kubernetesServiceConnectionTest)
+        manifests: |
+          $(Build.SourcesDirectory)/kube/service-match-engine*.yaml
+        imagePullSecrets: |
+          imagepullsecret-service-match-engine
+        containers: |
+          $(azureContainerRegistryTest)/servicematchengine:$(tag)
+
+- stage: DeployTestServiceDataProcessor
+  condition: and(eq(variables.isTest, true), succeeded())
+  dependsOn:
+    - BuildTestServiceDataProcessor
+    - DeployTestNlpVectorizer
+  displayName: Deploy Service Data Processor to test environment to Azure
+  variables:
+    - group: tku-paoh-test-variable-group
+  jobs:
+  - job: Deploy
+    displayName: Deploy
+    steps:
+
+    - task: KubernetesManifest@0
+      displayName: Create ImagePullSecret
+      inputs:
+        action: createSecret
+        namespace: default
+        kubernetesServiceConnection: $(kubernetesServiceConnectionTest)
+        secretName: imagepullsecret-service-data-processor
+        dockerRegistryEndpoint: $(dockerRegistryEndpointTest)
+
+    - task: replacetokens@3
+      displayName: 'Replace tokens in .yaml files'
+      inputs:
+        targetFiles: |
+          $(Build.SourcesDirectory)/kube/*.yaml
+        verbosity: detailed
+        tokenPrefix: '__'
+        tokenSuffix: '__'
+        
+    - task: KubernetesManifest@0
+      displayName: Deploy to Kubernetes test environment cluster
+      inputs:
+        action: deploy
+        namespace: default
+        kubernetesServiceConnection: $(kubernetesServiceConnectionTest)
+        manifests: |
+          kube/service-data-processor-function-deployment.yaml
+          kube/service-data-processor-function-scaledobject.yaml
+        imagePullSecrets: |
+          imagepullsecret-service-data-processor
+        containers: |
+          $(azureContainerRegistryTest)/servicedataprocessorfunction:$(tag)
+
+
+- stage: DeployProdNlpVectorizer
+  condition: and(eq(variables.isProd, true), succeeded())
+  dependsOn: BuildProdNlpVectorizer
+  displayName: Deploy NLP Vectorizer to prod environment to Azure
+  variables:
+    - group: tku-paoh-tuot-variable-group
+  jobs:
+  - job: Deploy
+    displayName: Deploy
+    steps:
+     - task: KubernetesManifest@0
+       displayName: Create Azure Fileshare secret
+       inputs:
+         action: createSecret
+         secretType: generic
+         namespace: default
+         kubernetesServiceConnection: $(kubernetesServiceConnectionProd)
+         secretName: azurefilesharesecretnlpmodels
+         secretArguments:
+           --from-literal=azurestorageaccountname=$(azurestorageaccountnameProd)
+           --from-literal=azurestorageaccountkey=$(azurestorageaccountkey)
+
+     - task: KubernetesManifest@0
+       displayName: Create ImagePullSecret
+       inputs:
+         action: createSecret
+         namespace: default
+         kubernetesServiceConnection: $(kubernetesServiceConnectionProd)
+         secretName: imagepullsecret-nlp-vectorizer
+         dockerRegistryEndpoint: $(dockerRegistryEndpointProd)
+
+     - task: replacetokens@3
+       displayName: 'Replace tokens in .yaml files'
+       inputs:
+         targetFiles: |
+           $(Build.SourcesDirectory)/kube/*.yaml
+         verbosity: detailed
+         tokenPrefix: '__'
+         tokenSuffix: '__'
+        
+     - task: KubernetesManifest@0
+       displayName: Deploy to Kubernetes prod environment cluster
+       inputs:
+         action: deploy
+         namespace: default
+         kubernetesServiceConnection: $(kubernetesServiceConnectionProd)
+         manifests: |
+           $(Build.SourcesDirectory)/kube/nlp*.yaml
+         imagePullSecrets: |
+          imagepullsecret-nlp-vectorizer
+         containers: |
+           $(azureContainerRegistryProd)/nlp_vectorizer:$(tag)
+
+- stage: DeployProdLexicalTextSearch
+  condition: and(eq(variables.isProd, true), succeeded())
+  dependsOn: BuildProdLexicalTextSearch
+  displayName: Deploy lexical text search to prod environment to Azure
+  variables:
+    - group: tku-paoh-tuot-variable-group
+  jobs:
+  - job: Deploy
+    displayName: Deploy
+    steps:
+
+     - task: KubernetesManifest@0
+       displayName: Create ImagePullSecret
+       inputs:
+         action: createSecret
+         namespace: default
+         kubernetesServiceConnection: $(kubernetesServiceConnectionProd)
+         secretName: imagepullsecret-lexical-text-search
+         dockerRegistryEndpoint: $(dockerRegistryEndpointProd)
+
+     - task: replacetokens@3
+       displayName: 'Replace tokens in .yaml files'
+       inputs:
+         targetFiles: |
+           $(Build.SourcesDirectory)/kube/*.yaml
+         verbosity: detailed
+         tokenPrefix: '__'
+         tokenSuffix: '__'
+        
+     - task: KubernetesManifest@0
+       displayName: Deploy to Kubernetes prod environment cluster
+       inputs:
+         action: deploy
+         namespace: default
+         kubernetesServiceConnection: $(kubernetesServiceConnectionProd)
+         manifests: |
+           $(Build.SourcesDirectory)/kube/lexical*.yaml
+         imagePullSecrets: |
+          imagepullsecret-lexical-text-search
+         containers: |
+           $(azureContainerRegistryProd)/lexical_text_search:$(tag)
+
+
+- stage: DeployProdServiceMatchEngine
+  condition: and(eq(variables.isProd, true), succeeded())
+  dependsOn:
+  - BuildProdServiceMatchEngine
+  - DeployProdNlpVectorizer
+  displayName: Deploy Service Match Engine to prod environment to Azure
+  variables:
+    - group: tku-paoh-tuot-variable-group
+  jobs:
+  - job: Deploy
+    displayName: Deploy
+    steps:
+
+     - task: KubernetesManifest@0
+       displayName: Create ImagePullSecret
+       inputs:
+         action: createSecret
+         namespace: default
+         kubernetesServiceConnection: $(kubernetesServiceConnectionProd)
+         secretName: imagepullsecret-service-match-engine
+         dockerRegistryEndpoint: $(dockerRegistryEndpointProd)
+
+     - task: replacetokens@3
+       displayName: 'Replace tokens in .yaml files'
+       inputs:
+         targetFiles: |
+           $(Build.SourcesDirectory)/kube/*.yaml
+         verbosity: detailed
+         tokenPrefix: '__'
+         tokenSuffix: '__'
+        
+     - task: KubernetesManifest@0
+       displayName: Deploy to Kubernetes prod environment cluster
+       inputs:
+         action: deploy
+         namespace: default
+         kubernetesServiceConnection: $(kubernetesServiceConnectionProd)
+         manifests: |
+           $(Build.SourcesDirectory)/kube/service-match-engine*.yaml
+         imagePullSecrets: |
+          imagepullsecret-service-match-engine
+         containers: |
+           $(azureContainerRegistryProd)/servicematchengine:$(tag)
+
+- stage: DeployProdServiceDataProcessor
+  condition: and(eq(variables.isProd, true), succeeded())
+  dependsOn:
+    - BuildProdServiceDataProcessor
+    - DeployProdNlpVectorizer
+  displayName: Deploy Service Data Processor to prod environment to Azure
+  variables:
+    - group: tku-paoh-tuot-variable-group
+  jobs:
+  - job: Deploy
+    displayName: Deploy
+    steps:
+
+     - task: KubernetesManifest@0
+       displayName: Create ImagePullSecret
+       inputs:
+         action: createSecret
+         namespace: default
+         kubernetesServiceConnection: $(kubernetesServiceConnectionProd)
+         secretName: imagepullsecret-service-data-processor
+         dockerRegistryEndpoint: $(dockerRegistryEndpointProd)
+
+     - task: replacetokens@3
+       displayName: 'Replace tokens in .yaml files'
+       inputs:
+         targetFiles: |
+           $(Build.SourcesDirectory)/kube/*.yaml
+         verbosity: detailed
+         tokenPrefix: '__'
+         tokenSuffix: '__'
+        
+     - task: KubernetesManifest@0
+       displayName: Deploy to Kubernetes prod environment cluster
+       inputs:
+         action: deploy
+         namespace: default
+         kubernetesServiceConnection: $(kubernetesServiceConnectionProd)
+         manifests: |
+           kube/service-data-processor-function-deployment.yaml
+           kube/service-data-processor-function-scaledobject.yaml
+         imagePullSecrets: |
+          imagepullsecret-service-data-processor
+         containers: |
+           $(azureContainerRegistryProd)/servicedataprocessorfunction:$(tag)
+
+
+
+
+
+
+
+

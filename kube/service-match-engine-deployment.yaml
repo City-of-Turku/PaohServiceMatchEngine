@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: service-match-engine
+  name: service-match-engine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: service-match-engine
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: service-match-engine
+    spec:
+      containers:
+        - env:
+          - name: MONGO_HOST
+            value: __mongohost__
+          - name: MONGO_PORT
+            value: "__mongoport__"
+          - name: MONGO_DB
+            value: __servicedbmongodb__
+          - name: MONGO_USERNAME
+            value: __mongousername__
+          - name: MONGO_PASSWORD
+            value: __mongopassword__
+          - name: NLP_VECTORIZER_HOST
+            value: http://nlp-vectorizer.default.svc.cluster.local:80
+          - name: LEXICAL_TEXT_SEARCH_HOST
+            value: http://lexical-text-search.default.svc.cluster.local:80
+          - name: FAST_API_ROOT_PATH
+            value: __fastapirootpath__
+          image: __dockerregistryname__.azurecr.io/servicematchengine:__tag__
+          imagePullPolicy: Always
+          name: service-match-engine-app
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 60
+            periodSeconds: 60
+            timeoutSeconds: 20
+          resources: {}
+      imagePullSecrets:
+        - name: imagepullsecret-service-match-engine
+      restartPolicy: Always
+status: {}

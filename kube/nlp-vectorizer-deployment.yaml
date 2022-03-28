@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: nlp-vectorizer
+  name: nlp-vectorizer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: nlp-vectorizer
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: nlp-vectorizer
+    spec:
+      containers:
+      - env:
+        - name: NLP_MODELS_MOUNT_PATH
+          value: '/nlp_models'
+        - name: NLP_MODEL_NAME
+          value: __nlpmodelname__
+        image: __dockerregistryname__.azurecr.io/nlp_vectorizer:__tag__
+        imagePullPolicy: Always
+        name: nlp-vectorizer
+        ports:
+          - containerPort: 80
+        resources:
+           requests:
+             memory: "3Gi"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 60
+          periodSeconds: 60
+          timeoutSeconds: 20
+        volumeMounts:
+        - mountPath: /nlp_models
+          name: nlp-models
+      imagePullSecrets:
+        - name: imagepullsecret-nlp-vectorizer
+      restartPolicy: Always
+      volumes:
+      - name: nlp-models
+        persistentVolumeClaim:
+          claimName: fileshare-nlp-models
+status: {}

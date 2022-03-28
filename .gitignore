@@ -1,0 +1,8 @@
+.env
+__pycache__
+.venv/
+nlp_models/
+.ipynb_checkpoints
+ptv.json
+local.settings.json
+recommendation_testing/*.json
